@@ -1,0 +1,35 @@
+{
+  "name": "imagemaker.js",
+  "version": "1.0.52",
+  "description": "A Beautifull Module for Download of Image Makers from Providers (textpro and Ephoto360)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viniciusgdr/imagemaker.js.git"
+  },
+  "keywords": [
+    "imagemaker",
+    "maker",
+    "image",
+    "ephoto360",
+    "textpro",
+    "effects"
+  ],
+  "author": "viniciusgdr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/viniciusgdr/imagemaker.js/issues"
+  },
+  "homepage": "https://github.com/viniciusgdr/imagemaker.js#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@types/request": "^2.48.8"
+  }
+}
