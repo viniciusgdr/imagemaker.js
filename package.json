@@ -2,7 +2,7 @@
   "name": "imagemaker.js",
   "version": "1.0.52",
   "description": "A Beautifull Module for Download of Image Makers from Providers (textpro and Ephoto360)",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
