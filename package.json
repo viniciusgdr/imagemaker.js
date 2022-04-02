@@ -1,6 +1,6 @@
 {
   "name": "imagemaker.js",
-  "version": "2.0",
+  "version": "2.0.0",
   "description": "A Beautifull Module for Download of Image Makers from Providers (textpro and Ephoto360)",
   "main": "index.ts",
   "scripts": {
