@@ -1,5 +1,5 @@
 import request from 'request';
-import cheerio from 'cheerio';
+import { load } from 'cheerio';
 import { IGenerateNewCookies, IMaker } from '.'
 
 export function Ephoto360(url: string, text: string[], headers: IGenerateNewCookies): Promise<IMaker> {
@@ -13,7 +13,7 @@ export function Ephoto360(url: string, text: string[], headers: IGenerateNewCook
             if (err) return reject({
                 success: false
             })
-            const $ = cheerio.load(body);
+            const $ = load(body);
 
             let servidor = $('#build_server').val() as string
             let servidorId = $('#build_server_id').val() as string
@@ -59,7 +59,7 @@ export function Ephoto360(url: string, text: string[], headers: IGenerateNewCook
                 if (err) return reject({
                     success: false
                 })
-                const $ = cheerio.load(body)
+                const $ = load(body)
                 let valueInput = $('#form_value_input').val() as string
                 request({
                     url: 'https://en.ephoto360.com/effect/create-image',

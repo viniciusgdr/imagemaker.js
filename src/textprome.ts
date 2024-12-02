@@ -1,5 +1,5 @@
 import request from 'request';
-import cheerio from 'cheerio';
+import { load } from 'cheerio';
 import { IGenerateNewCookies, IMaker } from '.'
 
 export function TextPro(url: string, text: string[], headers: IGenerateNewCookies): Promise<IMaker> {
@@ -13,7 +13,7 @@ export function TextPro(url: string, text: string[], headers: IGenerateNewCookie
             if (err) return reject({
                 success: false
             })
-            const $ = cheerio.load(body);
+            const $ = load(body);
 
             let servidor = $('#build_server').val()
             let servidorId = $('#build_server_id').val()
@@ -59,7 +59,7 @@ export function TextPro(url: string, text: string[], headers: IGenerateNewCookie
                 if (err) return reject({
                     success: false
                 })
-                const $ = cheerio.load(body)
+                const $ = load(body)
                 request({
                     url: 'https://textpro.me/effect/create-image',
                     method: 'POST',
