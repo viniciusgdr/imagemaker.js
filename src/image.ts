@@ -14,24 +14,38 @@ type ImageDimensions = {
 }
 
 const BASE_URL = 'https://e1.yotools.net';
-export async function adjustForImage(uploadResult: UploadResult): Promise<ImageDimensions> {
-  const imageRequest = await got.get(BASE_URL + uploadResult.uploaded_file, {
-    responseType: 'buffer'
-  });
+export async function adjustForImage(uploadResult: UploadResult, thumbWidth: number, thumbHeight: number): Promise<ImageDimensions> {
+  const [imageRequest, thumbRequest] = await Promise.all([
+    got.get(BASE_URL + uploadResult.uploaded_file, { responseType: 'buffer' }),
+    got.get(BASE_URL + uploadResult.thumb_file, { responseType: 'buffer' })
+  ]);
   const image = sharp(imageRequest.body);
-  const metadata = await image.metadata();
-
-  const thumbRequest = await got.get(BASE_URL + uploadResult.thumb_file, {
-    responseType: 'buffer'
-  });
   const thumb = sharp(thumbRequest.body);
 
+  const metadata = await image.metadata();
   const thumbMetadata = await thumb.metadata();
+
+  // O corte será feito da parte esquerda da imagem (x=0)
+  const xOffset = 0;
+  const yOffset = 0; // O corte começa do topo da imagem (sem deslocamento vertical)
+
+  // A altura da miniatura é fixada no valor de thumbHeight (300px)
+  const finalHeight = thumbMetadata.height;
+
+  // A proporção da imagem original
+  const aspectRatio = metadata.width / metadata.height;  // Proporção original da imagem
+
+  // Calcular a largura proporcional com base na altura fixada
+  const scaledWidth = Math.round(finalHeight * aspectRatio);
+
+  // Se a largura calculada exceder o valor de thumbWidth (400px), ajusta para thumbWidth
+  const finalWidth = scaledWidth > thumbWidth ? thumbWidth : scaledWidth;
+
   return {
-    x: thumbMetadata.width / 24,
-    y: 0,
-    width: (thumbMetadata.width + 33.3) || (metadata.width / 2) || 0,
-    height: thumbMetadata.height || metadata.height || 0,
+    x: xOffset,
+    y: yOffset,
+    width: finalWidth,  // Largura da miniatura
+    height: thumbMetadata.height,  // Altura da miniatura
     rotate: 0,
     scaleX: 1,
     scaleY: 1,

@@ -64,22 +64,30 @@ export async function ephoto360(
             types.push($(elem).find('input').val() as string);
         });
 
-        const inputForImage = $('ul > li:nth-child(2) > span').find('span.btn.btn-primary.choose_file_button')
+        const inputForImage = $('span.btn.btn-primary.choose_file_button')
+        const inputForText = $('li:nth-child(1) > div > label')
         let form = {
-            'autocomplete0': '',
-            'text': [...text],
             'submit': 'GO',
             'token': token,
             'build_server': server,
             'build_server_id': Number(serverId),
             ...(types.length && { 'radio0[radio]': types[Math.floor(Math.random() * types.length)] })
         };
+        if (inputForText.length) {
+            form['autocomplete0'] = '';
+            form['text'] = [...text];
+        }
         if (inputForImage.length) {
             if (!uploadResult) {
                 throw { success: false, message: 'You need to upload an image' };
             }
-            const imageDimensions = await adjustForImage(uploadResult)
-            form['file_image_input:'] = '';
+            const inputImg = $('#image-file-0')
+            const imageDimensions = await adjustForImage(
+                uploadResult,
+                +inputImg.attr('data-width') as unknown as number,
+                +inputImg.attr('data-height') as unknown as number
+            )
+            form['file_image_input'] = '';
             form['image[]'] = JSON.stringify({
                 image: uploadResult.uploaded_file,
                 image_thumb: uploadResult.thumb_file,
