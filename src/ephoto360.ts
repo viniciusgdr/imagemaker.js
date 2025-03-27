@@ -121,7 +121,7 @@ export async function ephoto360(
             url: 'https://en.ephoto360.com/effect/create-image',
             method: 'POST',
             headers: headObj,
-            form: JSON.parse(valueInput)
+            form: JSON.parse(valueInput.replace(/&quot;/g, '"').replace(/\\/g, ''))
         });
 
         const parse = JSON.parse(createImageResponse);
